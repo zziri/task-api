@@ -3,10 +3,7 @@ package com.zziri.todo.controller.v1;
 import com.zziri.todo.domain.User;
 import com.zziri.todo.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +23,10 @@ public class UserController {
     }
 
     @PostMapping
-    public User save() {
+    public User save(@RequestParam String account, @RequestParam String name) {
         User user = User.builder()
-                .account("jihzang@naver.com")
-                .name("jihoon")
+                .account(account)
+                .name(name)
                 .build();
         return userRepo.save(user);
     }
