@@ -19,6 +19,7 @@ public class UserService {
 
     public Response<User> findById(Long id) {
         User user = userRepo.findById(id).orElseThrow(RuntimeException::new);
+
         return Response.<User>builder()
                 .data(user).build();
     }
@@ -33,6 +34,24 @@ public class UserService {
                 .account(account)
                 .name(name).build();
         userRepo.save(user);
+
+        return Response.<User>builder()
+                .data(user).build();
+    }
+
+    public Response<User> modify(long id, String account, String name) {
+        User user = userRepo.findById(id).orElseThrow(RuntimeException::new);
+        user.setAccount(account);
+        user.setName(name);
+
+        return Response.<User>builder()
+                .data(userRepo.save(user)).build();
+    }
+
+    public Response<User> delete(long id) {
+        User user = userRepo.findById(id).orElseThrow(RuntimeException::new);
+        userRepo.delete(user);
+
         return Response.<User>builder()
                 .data(user).build();
     }

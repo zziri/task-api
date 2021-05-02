@@ -33,5 +33,13 @@ public class UserController {
         return userService.post(account, name);
     }
 
+    @PutMapping(value = "/user")
+    public Response<User> modify(@RequestParam long id, @RequestParam String account, @RequestParam String name) {
+        return userService.modify(id, account, name);
+    }
 
+    @DeleteMapping(value = "/user")
+    public Response<User> delete(@RequestParam long id) {
+        return userService.delete(id);
+    }
 }
