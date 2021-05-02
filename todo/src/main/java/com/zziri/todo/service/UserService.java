@@ -2,6 +2,7 @@ package com.zziri.todo.service;
 
 import com.zziri.todo.domain.Response;
 import com.zziri.todo.domain.User;
+import com.zziri.todo.exception.custom.UserNotFoundException;
 import com.zziri.todo.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class UserService {
     }
 
     public Response<User> findById(Long id) {
-        User user = userRepo.findById(id).orElseThrow(RuntimeException::new);
+        User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
 
         return Response.<User>builder()
                 .data(user).build();
@@ -40,7 +41,7 @@ public class UserService {
     }
 
     public Response<User> modify(long id, String account, String name) {
-        User user = userRepo.findById(id).orElseThrow(RuntimeException::new);
+        User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
         user.setAccount(account);
         user.setName(name);
 
@@ -49,7 +50,7 @@ public class UserService {
     }
 
     public Response<User> delete(long id) {
-        User user = userRepo.findById(id).orElseThrow(RuntimeException::new);
+        User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
         userRepo.delete(user);
 
         return Response.<User>builder()
