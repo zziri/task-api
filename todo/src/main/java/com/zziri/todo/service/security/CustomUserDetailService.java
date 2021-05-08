@@ -18,6 +18,6 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userPk) {
-        return (UserDetails) userRepo.findById(Long.valueOf(userPk)).orElseThrow(UserNotFoundException::new);
+        return userRepo.findById(Long.valueOf(userPk)).orElseThrow(UserNotFoundException::new);
     }
 }
