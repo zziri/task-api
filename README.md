@@ -1,4 +1,3 @@
 # todo api
 
-todo 모바일 앱의 api 서버입니다
-
+To Do List를 관리할 수 있는 api 서버 개인 프로젝트
