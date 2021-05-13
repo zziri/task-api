@@ -1,9 +1,7 @@
 package com.zziri.todo.exception.handler;
 
 import com.zziri.todo.domain.Response;
-import com.zziri.todo.exception.custom.AccountSigninFailedException;
-import com.zziri.todo.exception.custom.AuthenticationEntryPointException;
-import com.zziri.todo.exception.custom.UserNotFoundException;
+import com.zziri.todo.exception.custom.*;
 import com.zziri.todo.exception.dto.ErrorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -40,5 +38,19 @@ public class GlobalExceptionHandler {
     public Response<ErrorDto> handleAuthenticationEntryPointException(AuthenticationEntryPointException ex) {
         return Response.<ErrorDto>builder().error(true)
                 .data(ErrorDto.of(HttpStatus.UNAUTHORIZED.value(), AuthenticationEntryPointException.MESSAGE)).build();
+    }
+
+    @ExceptionHandler(value = CommunicationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response<ErrorDto> handleCommunicationException(CommunicationException ex) {
+        return Response.<ErrorDto>builder().error(true)
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), CommunicationException.MESSAGE)).build();
+    }
+
+    @ExceptionHandler(value = UserExistException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response<ErrorDto> handleUserExistException(UserExistException ex) {
+        return Response.<ErrorDto>builder().error(true)
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), UserExistException.MESSAGE)).build();
     }
 }
