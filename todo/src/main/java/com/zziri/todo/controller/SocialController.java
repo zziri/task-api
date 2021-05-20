@@ -51,4 +51,9 @@ public class SocialController {
         mav.setViewName("social/redirectKakao");
         return mav;
     }
+
+    @GetMapping(value = "/google")
+    public String redirectGoogle(@RequestParam String code) {
+        return code;
+    }
 }
