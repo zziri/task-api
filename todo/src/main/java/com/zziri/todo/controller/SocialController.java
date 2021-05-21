@@ -1,6 +1,7 @@
 package com.zziri.todo.controller;
 
 import com.google.gson.Gson;
+import com.zziri.todo.service.GoogleService;
 import com.zziri.todo.service.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ public class SocialController {
     private final RestTemplate restTemplate;
     private final Gson gson;
     private final KakaoService kakaoService;
+    private final GoogleService googleService;
 
     @Value("${spring.url.base}")
     private String baseUrl;
@@ -56,12 +58,14 @@ public class SocialController {
     @GetMapping(value = "/kakao")
     public ModelAndView redirectKakao(ModelAndView mav, @RequestParam String code) {
         mav.addObject("authInfo", kakaoService.getKakaoTokenInfo(code));
-        mav.setViewName("social/redirectKakao");
+        mav.setViewName("social/redirect");
         return mav;
     }
 
     @GetMapping(value = "/google")
-    public String redirectGoogle(@RequestParam String code) {
-        return code;
+    public ModelAndView redirectGoogle(ModelAndView mav, @RequestParam String code) {
+        mav.addObject("authInfo", googleService.getGoogleTokenInfo(code));
+        mav.setViewName("social/redirect");
+        return mav;
     }
 }
