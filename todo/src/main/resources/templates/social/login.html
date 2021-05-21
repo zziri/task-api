@@ -2,14 +2,28 @@
 <body>
 
 <button onclick="popupKakaoLogin()">KakaoLogin</button>
+<button onclick="popupGoogleLogin()">GoogleLogin</button>
 <script>
     function popupKakaoLogin() {
         /*<![CDATA[*/
 
-        var loginUrl = "[[ ${loginUrl} ]]";
+        var kakaoLoginUrl = "[[ ${kakaoLoginUrl} ]]";
+
+        kakaoLoginUrl = kakaoLoginUrl.replace(/amp;/gi, "");
 
         /*]]*/
-        window.open(loginUrl, 'popupKakaoLogin', 'width=700,height=500,scrollbars=0,toolbar=0,menubar=no');
+        window.open(kakaoLoginUrl, 'popupKakaoLogin', 'width=700,height=500,scrollbars=0,toolbar=0,menubar=no');
+    }
+
+    function popupGoogleLogin() {
+        /*<![CDATA[*/
+
+        var googleLoginUrl = "[[ ${googleLoginUrl} ]]";
+
+        googleLoginUrl = googleLoginUrl.replace(/amp;/gi, "");
+
+        /*]]*/
+        window.open(googleLoginUrl, 'popupGoogleLogin', 'width=700,height=500,scrollbars=0,toolbar=0,menubar=no');
     }
 </script>
 </body>

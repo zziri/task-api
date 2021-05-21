@@ -33,14 +33,22 @@ public class SocialController {
 
     @GetMapping
     public ModelAndView socialLogin(ModelAndView mav) {
-
-        StringBuilder loginUrl = new StringBuilder()
+        StringBuilder kakaoLoginUrl = new StringBuilder()
                 .append(env.getProperty("spring.social.kakao.url.login"))
                 .append("?client_id=").append(kakaoClientId)
                 .append("&response_type=code")
                 .append("&redirect_uri=").append(baseUrl).append(kakaoRedirect);
+        mav.addObject("kakaoLoginUrl", kakaoLoginUrl);
 
-        mav.addObject("loginUrl", loginUrl);
+        StringBuilder googleLoginUrl = new StringBuilder()
+                .append(env.getProperty("spring.social.google.url.login"))
+                .append("?scope=").append(env.getProperty("spring.social.google.scope"))
+                .append("&client_id=").append(env.getProperty("spring.social.google.client_id"))
+                .append("&redirect_uri=").append(baseUrl).append(env.getProperty("spring.social.google.redirect"))
+                .append("&response_type=code");
+
+        mav.addObject("googleLoginUrl", googleLoginUrl);
+
         mav.setViewName("social/login");
         return mav;
     }
