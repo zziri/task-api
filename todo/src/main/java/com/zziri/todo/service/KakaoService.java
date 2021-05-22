@@ -23,12 +23,14 @@ public class KakaoService {
 
     @Value("${spring.url.base}")
     private String baseUrl;
-
     @Value("${spring.social.kakao.client_id}")
-    private String kakaoClientId;
-
+    private String clientId;
     @Value("${spring.social.kakao.redirect}")
-    private String kakaoRedirect;
+    private String redirectUrl;
+    @Value("${spring.social.kakao.url.profile}")
+    private String profileUrl;
+    @Value("${spring.social.kakao.url.token}")
+    private String tokenUrl;
 
     public KakaoProfile getKakaoProfile(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
@@ -37,7 +39,7 @@ public class KakaoService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(profileUrl, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK)
                 return gson.fromJson(response.getBody(), KakaoProfile.class);
         } catch (Exception e) {
@@ -52,15 +54,19 @@ public class KakaoService {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", kakaoClientId);
-        params.add("redirect_uri", baseUrl + kakaoRedirect);
+        params.add("client_id", clientId);
+        params.add("redirect_uri", baseUrl + redirectUrl);
         params.add("code", code);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.token"), request, String.class);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), OAuthTokenInfo.class);
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, request, String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return gson.fromJson(response.getBody(), OAuthTokenInfo.class);
+            }
+        } catch (Exception e) {
+            throw new CommunicationException();
         }
-        return null;
+        throw new CommunicationException();
     }
 }
