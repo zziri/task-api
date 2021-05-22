@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public class GoogleProfile {
+public class GoogleProfile implements SocialProfile {
     private String id;
     private String name;
     private String givenName;
@@ -16,4 +16,9 @@ public class GoogleProfile {
     private String email;
     private Boolean emailVerified;
     private String locale;
+
+    @Override
+    public String getAccount() {
+        return id;
+    }
 }

@@ -1,8 +1,7 @@
 package com.zziri.todo.controller.v1;
 
-import com.zziri.todo.domain.GoogleProfile;
-import com.zziri.todo.domain.KakaoProfile;
 import com.zziri.todo.domain.Response;
+import com.zziri.todo.domain.SocialProfile;
 import com.zziri.todo.service.GoogleService;
 import com.zziri.todo.service.KakaoService;
 import com.zziri.todo.service.security.SignService;
@@ -29,27 +28,27 @@ public class SignController {
 
     @PostMapping(value = "/signin/{provider}")
     public Response<String> signinByProvider(@PathVariable String provider, @RequestParam String accessToken) {
+        SocialProfile profile;
         if (provider.equals("kakao")) {
-            KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-            return signService.signinByProvider(provider, profile);
+            profile = kakaoService.getKakaoProfile(accessToken);
         } else if (provider.equals("google")) {
-            GoogleProfile profile = googleService.getProfile(accessToken);
-            return signService.signinByProvider(provider, profile);
+            profile = googleService.getProfile(accessToken);
         } else {
             return null;
         }
+        return signService.signinByProvider(provider, profile);
     }
 
     @PostMapping(value = "/signup/{provider}")
     public Response<String> signupProvider(@PathVariable String provider, @RequestParam String accessToken, @RequestParam String name) {
+        SocialProfile profile;
         if (provider.equals("kakao")) {
-            KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-            return signService.signupProvider(provider, name, profile);
+            profile = kakaoService.getKakaoProfile(accessToken);
         } else if (provider.equals("google")) {
-            GoogleProfile profile = googleService.getProfile(accessToken);
-            return signService.signupProvider(provider, name, profile);
+            profile = googleService.getProfile(accessToken);
         } else {
             return null;
         }
+        return signService.signupProvider(provider, name, profile);
     }
 }
