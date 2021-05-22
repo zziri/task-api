@@ -3,10 +3,10 @@ package com.zziri.todo.service;
 import com.google.gson.Gson;
 import com.zziri.todo.domain.KakaoProfile;
 import com.zziri.todo.domain.OAuthTokenInfo;
+import com.zziri.todo.domain.SocialProfile;
 import com.zziri.todo.exception.custom.CommunicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,10 +15,9 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
-public class KakaoService {
+public class KakaoService implements SocialService {
 
     private final RestTemplate restTemplate;
-    private final Environment env;
     private final Gson gson;
 
     @Value("${spring.url.base}")
@@ -32,7 +31,8 @@ public class KakaoService {
     @Value("${spring.social.kakao.url.token}")
     private String tokenUrl;
 
-    public KakaoProfile getKakaoProfile(String accessToken) {
+    @Override
+    public SocialProfile getProfile(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessToken);
@@ -48,7 +48,8 @@ public class KakaoService {
         throw new CommunicationException();
     }
 
-    public OAuthTokenInfo getKakaoTokenInfo(String code) {
+    @Override
+    public OAuthTokenInfo getTokenInfo(String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -68,5 +69,10 @@ public class KakaoService {
             throw new CommunicationException();
         }
         throw new CommunicationException();
+    }
+
+    @Override
+    public String getType() {
+        return "kakao";
     }
 }

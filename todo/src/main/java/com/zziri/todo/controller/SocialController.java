@@ -53,14 +53,14 @@ public class SocialController {
 
     @GetMapping(value = "/kakao")
     public ModelAndView redirectKakao(ModelAndView mav, @RequestParam String code) {
-        mav.addObject("authInfo", kakaoService.getKakaoTokenInfo(code));
+        mav.addObject("authInfo", kakaoService.getTokenInfo(code));
         mav.setViewName("social/redirect");
         return mav;
     }
 
     @GetMapping(value = "/google")
     public ModelAndView redirectGoogle(ModelAndView mav, @RequestParam String code) {
-        mav.addObject("authInfo", googleService.getGoogleTokenInfo(code));
+        mav.addObject("authInfo", googleService.getTokenInfo(code));
         mav.setViewName("social/redirect");
         return mav;
     }

@@ -3,6 +3,7 @@ package com.zziri.todo.service;
 import com.google.gson.Gson;
 import com.zziri.todo.domain.GoogleProfile;
 import com.zziri.todo.domain.OAuthTokenInfo;
+import com.zziri.todo.domain.SocialProfile;
 import com.zziri.todo.exception.custom.CommunicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
-public class GoogleService {
+public class GoogleService implements SocialService {
     private final RestTemplate restTemplate;
     private final Gson gson;
 
@@ -31,7 +32,8 @@ public class GoogleService {
     @Value("${spring.social.google.url.token}")
     private String tokenUrl;
 
-    public GoogleProfile getProfile(String accessToken) {
+    @Override
+    public SocialProfile getProfile(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessToken);
@@ -48,7 +50,8 @@ public class GoogleService {
         throw new CommunicationException();
     }
 
-    public OAuthTokenInfo getGoogleTokenInfo(String code) {
+    @Override
+    public OAuthTokenInfo getTokenInfo(String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -69,5 +72,10 @@ public class GoogleService {
             throw new CommunicationException();
         }
         throw new CommunicationException();
+    }
+
+    @Override
+    public String getType() {
+        return "google";
     }
 }
