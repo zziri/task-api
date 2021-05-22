@@ -1,6 +1,7 @@
 package com.zziri.todo.service.security;
 
 import com.zziri.todo.config.security.JwtTokenProvider;
+import com.zziri.todo.domain.GoogleProfile;
 import com.zziri.todo.domain.KakaoProfile;
 import com.zziri.todo.domain.Response;
 import com.zziri.todo.domain.User;
@@ -53,17 +54,40 @@ public class SignService {
     public Response<String> signinByProvider(String provider, KakaoProfile profile) {
         User user = userRepo.findByAccountAndProvider(String.valueOf(profile.getId()), provider).orElseThrow(UserNotFoundException::new);
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
+
+        return Response.<String>builder()
+                .data(token).build();
+    }
+
+    public Response<String> signinByProvider(String provider, GoogleProfile profile) {
+        User user = userRepo.findByAccountAndProvider(profile.getId(), provider).orElseThrow(UserNotFoundException::new);
+        String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
+
         return Response.<String>builder()
                 .data(token).build();
     }
 
     public Response<String> signupProvider(String provider, String name, KakaoProfile profile) {
         Optional<User> user = userRepo.findByAccountAndProvider(String.valueOf(profile.getId()), provider);
-        if(user.isPresent())
+        if (user.isPresent())
             throw new UserExistException();
 
         userRepo.save(User.builder()
                 .account(String.valueOf(profile.getId()))
+                .provider(provider)
+                .name(name)
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build());
+        return Response.<String>builder().build();
+    }
+
+    public Response<String> signupProvider(String provider, String name, GoogleProfile profile) {
+        Optional<User> user = userRepo.findByAccountAndProvider(profile.getId(), provider);
+        if (user.isPresent())
+            throw new UserExistException();
+
+        userRepo.save(User.builder()
+                .account(profile.getId())
                 .provider(provider)
                 .name(name)
                 .roles(Collections.singletonList("ROLE_USER"))

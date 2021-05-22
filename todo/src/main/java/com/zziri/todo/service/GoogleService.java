@@ -1,7 +1,9 @@
 package com.zziri.todo.service;
 
 import com.google.gson.Gson;
+import com.zziri.todo.domain.GoogleProfile;
 import com.zziri.todo.domain.OAuthTokenInfo;
+import com.zziri.todo.exception.custom.CommunicationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -18,6 +20,29 @@ public class GoogleService {
     private final RestTemplate restTemplate;
     private final Environment env;
     private final Gson gson;
+
+    public GoogleProfile getProfile(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    env.getProperty("spring.social.google.url.profile"), HttpMethod.GET, new HttpEntity<>(headers),
+                    String.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                String json = response.getBody()
+                        .replace("\"given_name\"", "\"givenName\"")
+                        .replace("\"family_name\"", "\"familyName\"")
+                        .replace("\"email_verified\"", "\"emailVerified\"")
+                        .replace("\"sub\"", "\"id\"");
+                return gson.fromJson(json, GoogleProfile.class);
+            }
+        } catch (Exception e) {
+            throw new CommunicationException();
+        }
+        throw new CommunicationException();
+    }
 
     public OAuthTokenInfo getGoogleTokenInfo(String code) {
         HttpHeaders headers = new HttpHeaders();
