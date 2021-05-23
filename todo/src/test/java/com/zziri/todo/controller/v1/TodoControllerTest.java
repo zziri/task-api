@@ -29,6 +29,7 @@ class TodoControllerTest {
 
     @BeforeEach
     public void before() {
+        // ToDo: BeforeAll로 바꾸기, static에서 get bean -> https://m.blog.naver.com/PostView.naver?blogId=lminggvick&logNo=221074827418&proxyReferer=https:%2F%2Fwww.google.com%2F
         signService.signup("thisismyaccount", "1234", "jihoon");
         token = signService.signin("thisismyaccount", "1234").getData();
     }
