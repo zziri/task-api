@@ -23,7 +23,7 @@ public class JwtTokenProvider {
     @Value("${spring.jwt.secret}")
     private String secretKey;
 
-    private long tokenValidMilisecond = 1000L * 60 *60;
+    private long tokenValidMilisecond = 1000L * 60 * 60 * 24;
 
     private final UserDetailsService userDetailsService;
 
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
-    // token -> primary key(account?)
+    // token -> primary key(id?)
     public String getUserPk(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
