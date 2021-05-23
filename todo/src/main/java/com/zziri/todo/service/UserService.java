@@ -1,28 +1,32 @@
 package com.zziri.todo.service;
 
+import com.zziri.todo.config.security.JwtTokenProvider;
 import com.zziri.todo.domain.Response;
 import com.zziri.todo.domain.User;
 import com.zziri.todo.exception.custom.UserNotFoundException;
 import com.zziri.todo.repository.UserRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepo userRepo;
-
-    @Autowired
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     public Response<User> findById(Long id) {
         User user = userRepo.findById(id).orElseThrow(UserNotFoundException::new);
 
         return Response.<User>builder()
                 .data(user).build();
+    }
+
+    public Response<User> findByToken(String token) {
+        String userPk = jwtTokenProvider.getUserPk(token);
+        return findById(Long.valueOf(userPk));
     }
 
     public Response<List<User>> findAllUser() {
