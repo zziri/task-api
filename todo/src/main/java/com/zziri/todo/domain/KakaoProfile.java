@@ -7,9 +7,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class KakaoProfile {
+public class KakaoProfile implements SocialProfile {
     private Long id;
     private Properties properties;
+
+    @Override
+    public String getAccount() {
+        return id.toString();
+    }
 
     @Getter
     @Setter

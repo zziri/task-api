@@ -1,9 +1,7 @@
 package com.zziri.todo.service.security;
 
 import com.zziri.todo.config.security.JwtTokenProvider;
-import com.zziri.todo.domain.KakaoProfile;
-import com.zziri.todo.domain.Response;
-import com.zziri.todo.domain.User;
+import com.zziri.todo.domain.*;
 import com.zziri.todo.exception.custom.AccountSigninFailedException;
 import com.zziri.todo.exception.custom.UserExistException;
 import com.zziri.todo.exception.custom.UserNotFoundException;
@@ -50,20 +48,21 @@ public class SignService {
                 .data(token).build();
     }
 
-    public Response<String> signinByProvider(String provider, KakaoProfile profile) {
-        User user = userRepo.findByAccountAndProvider(String.valueOf(profile.getId()), provider).orElseThrow(UserNotFoundException::new);
+    public Response<String> signinByProvider(String provider, SocialProfile profile) {
+        User user = userRepo.findByAccountAndProvider(profile.getAccount(), provider).orElseThrow(UserNotFoundException::new);
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
+
         return Response.<String>builder()
                 .data(token).build();
     }
 
-    public Response<String> signupProvider(String provider, String name, KakaoProfile profile) {
-        Optional<User> user = userRepo.findByAccountAndProvider(String.valueOf(profile.getId()), provider);
-        if(user.isPresent())
+    public Response<String> signupProvider(String provider, String name, SocialProfile profile) {
+        Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), provider);
+        if (user.isPresent())
             throw new UserExistException();
 
         userRepo.save(User.builder()
-                .account(String.valueOf(profile.getId()))
+                .account(profile.getAccount())
                 .provider(provider)
                 .name(name)
                 .roles(Collections.singletonList("ROLE_USER"))
