@@ -31,6 +31,12 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+    @GetMapping(value = "/user")
+    public Response<User> findUser(@RequestHeader("X-AUTH-TOKEN") String token) {
+        return userService.findByToken(token);
+    }
+
     @PostMapping(value = "/user")
     public Response<User> post(@RequestParam String account, @RequestParam String name) {
         return userService.post(account, name);
