@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1/todo")
+@RequestMapping(value = "/v1/todo/task")
 public class TodoController {
     private final JwtTokenProvider jwtTokenProvider;
     private final TodoTaskService todoTaskService;

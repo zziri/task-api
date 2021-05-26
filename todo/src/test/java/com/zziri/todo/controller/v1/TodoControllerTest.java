@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,24 +34,23 @@ class TodoControllerTest {
     private Gson gson;
     private String token;
     private Long userPk;
-    private String pk;
+    private String id;
 
     @BeforeEach
     public void before() {
-        if (userPk != null)
+        if (id != null)
             return;
-        // TODO: 데이터 추가 작업
         // TODO: static에서 get bean -> https://m.blog.naver.com/PostView.naver?blogId=lminggvick&logNo=221074827418&proxyReferer=https:%2F%2Fwww.google.com%2F
         signService.signup("thisismyaccount", "1234", "jihoon");
         token = signService.signin("thisismyaccount", "1234").getData();
         userPk = Long.valueOf(jwtTokenProvider.getUserPk(token));
-        pk = todoTaskService.addTodoTask("first todo task", userPk).getData().getPk();
+        id = todoTaskService.addTodoTask("first todo task", userPk).getData().getId();
     }
 
     @Test
     public void addTodoTask() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/v1/todo/task")
+                MockMvcRequestBuilders.post("/v1/todo/task?task=first")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("{\n" +
                                 "    \"title\": \"first todo task\"\n" +
@@ -61,11 +59,11 @@ class TodoControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.error").value("false"))
-                .andExpect(jsonPath("$.data.title").value("first todo task"))
-                .andExpect(jsonPath("$.data.id").exists())
-                .andExpect(jsonPath("$.data.body").exists())
-                .andExpect(jsonPath("$.data.createdAt").exists())
-                .andExpect(jsonPath("$.data.modifiedAt").exists());
+                .andExpect(jsonPath("$.data.title").value("first"))
+                .andExpect(jsonPath("$.data.id").exists());
+//                .andExpect(jsonPath("$.data.body").exists())
+//                .andExpect(jsonPath("$.data.createdAt").exists())
+//                .andExpect(jsonPath("$.data.modifiedAt").exists());
     }
 
     @Test
@@ -85,7 +83,7 @@ class TodoControllerTest {
     @Test
     public void deleteTodoTask() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/v1/todo/task/" + pk)
+                MockMvcRequestBuilders.delete("/v1/todo/task/" + id)
                         .header("X-AUTH-TOKEN", token))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -95,7 +93,7 @@ class TodoControllerTest {
     @Test
     public void modifyTodoTask() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/v1/todo/task/" + pk)
+                MockMvcRequestBuilders.put("/v1/todo/task/" + id)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("{\n" +
                                 "    \"title\": \"modified\"\n" +
