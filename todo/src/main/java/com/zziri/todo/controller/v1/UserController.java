@@ -20,37 +20,37 @@ public class UserController {
     }
 
     @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
-    @GetMapping(value = "/users")
-    public Response<List<User>> findAllUser() {
-        return userService.findAllUser();
-    }
-
-    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
-    @GetMapping(value = "/user/{id}")
-    public Response<User> findById(@RequestParam Long id) {
-        return userService.findById(id);
-    }
-
-    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
     @GetMapping(value = "/user")
     public Response<User> findUser(@RequestHeader("X-AUTH-TOKEN") String token) {
         return userService.findByToken(token);
     }
 
-    @PostMapping(value = "/user")
-    public Response<User> post(@RequestParam String account, @RequestParam String name) {
-        return userService.post(account, name);
-    }
-
-    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
-    @PutMapping(value = "/user")
-    public Response<User> modify(@RequestParam long id, @RequestParam String account, @RequestParam String name) {
-        return userService.modify(id, account, name);
-    }
-
-    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
-    @DeleteMapping(value = "/user")
-    public Response<User> delete(@RequestParam long id) {
-        return userService.delete(id);
-    }
+//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @GetMapping(value = "/users")
+//    public Response<List<User>> findAllUser() {
+//        return userService.findAllUser();
+//    }
+//
+//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @GetMapping(value = "/user/{id}")
+//    public Response<User> findById(@PathVariable Long id) {
+//        return userService.findById(id);
+//    }
+//
+//    @PostMapping(value = "/user")
+//    public Response<User> post(@RequestParam String account, @RequestParam String name) {
+//        return userService.post(account, name);
+//    }
+//
+//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @PutMapping(value = "/user")
+//    public Response<User> modify(@RequestParam long id, @RequestParam String account, @RequestParam String name) {
+//        return userService.modify(id, account, name);
+//    }
+//
+//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @DeleteMapping(value = "/user")
+//    public Response<User> delete(@RequestParam long id) {
+//        return userService.delete(id);
+//    }
 }
