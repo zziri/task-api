@@ -53,4 +53,11 @@ public class GlobalExceptionHandler {
         return Response.<ErrorDto>builder().error(true)
                 .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), UserExistException.MESSAGE)).build();
     }
+
+    @ExceptionHandler(value = TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Response<ErrorDto> handleTaskNotFoundException(TaskNotFoundException ex) {
+        return Response.<ErrorDto>builder().error(true)
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), TaskNotFoundException.MESSAGE)).build();
+    }
 }

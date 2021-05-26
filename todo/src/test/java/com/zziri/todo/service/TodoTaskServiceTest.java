@@ -14,7 +14,7 @@ class TodoTaskServiceTest {
     private TodoTaskService todoTaskService;
     @Test
     public void addTodoTask() {
-        Response<TodoTask> ret = todoTaskService.addTodoTask("task", 1L);
+        Response<TodoTask> ret = todoTaskService.addTodoTask(TodoTask.builder().title("task").build(), 1L);
         System.out.println();
     }
 }

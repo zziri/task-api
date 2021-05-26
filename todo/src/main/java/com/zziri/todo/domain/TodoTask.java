@@ -1,10 +1,13 @@
 package com.zziri.todo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,21 +16,32 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class TodoTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pk;
-    @Column(length = 50)
-    private String id;
+    private Long id;
+
+    @Column
+    @JsonIgnore
+    private long ownerId;
+
     @Column(length = 200)
     private String title;
+
     @Column(length = 200)
-    private String body;
+    private String memo;
+
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     private LocalDateTime modifiedAt;
-    @Column
-    private long ownerId;
+
+    public void patch(TodoTask input) {
+        if (input.getTitle() != null)
+            title = input.getTitle();
+        if (input.getMemo() != null)
+            memo = input.getMemo();
+    }
 }
