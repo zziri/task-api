@@ -7,20 +7,20 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.4.5)
 
-2021-06-02 12:50:59.771  INFO 5565 --- [           main] com.zziri.todo.TodoApplication           : Starting TodoApplication using Java 1.8.0_292 on ip-172-31-36-196 with PID 5565 (/home/ubuntu/workspace/todo-api/todo/build/libs/todo-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/workspace/todo-api/todo)
-2021-06-02 12:50:59.788  INFO 5565 --- [           main] com.zziri.todo.TodoApplication           : No active profile set, falling back to default profiles: default
-2021-06-02 12:51:02.705  INFO 5565 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-06-02 12:51:02.849  INFO 5565 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 122 ms. Found 2 JPA repository interfaces.
-2021-06-02 12:51:04.740  INFO 5565 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2021-06-02 12:51:04.756  INFO 5565 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-06-02 12:51:04.756  INFO 5565 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
-2021-06-02 12:51:04.916  INFO 5565 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-06-02 12:51:04.916  INFO 5565 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4953 ms
-2021-06-02 12:51:06.019  INFO 5565 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-06-02 12:51:06.174  INFO 5565 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
-2021-06-02 12:51:06.493  INFO 5565 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-06-02 12:51:06.678  INFO 5565 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2021-06-02 12:51:08.184 ERROR 5565 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Exception during pool initialization.
+2021-06-02 13:01:48.341  INFO 5826 --- [           main] com.zziri.todo.TodoApplication           : Starting TodoApplication using Java 1.8.0_292 on ip-172-31-36-196 with PID 5826 (/home/ubuntu/workspace/todo-api/todo/build/libs/todo-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/workspace/todo-api/todo)
+2021-06-02 13:01:48.352  INFO 5826 --- [           main] com.zziri.todo.TodoApplication           : No active profile set, falling back to default profiles: default
+2021-06-02 13:01:51.053  INFO 5826 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-06-02 13:01:51.197  INFO 5826 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 130 ms. Found 2 JPA repository interfaces.
+2021-06-02 13:01:53.076  INFO 5826 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-06-02 13:01:53.105  INFO 5826 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-06-02 13:01:53.105  INFO 5826 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-06-02 13:01:53.269  INFO 5826 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-06-02 13:01:53.269  INFO 5826 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4755 ms
+2021-06-02 13:01:54.552  INFO 5826 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-06-02 13:01:54.696  INFO 5826 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-06-02 13:01:55.093  INFO 5826 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-06-02 13:01:55.335  INFO 5826 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-06-02 13:01:56.823 ERROR 5826 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Exception during pool initialization.
 
 com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
 
@@ -115,7 +115,7 @@ Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protoco
 	at com.mysql.cj.protocol.a.NativeProtocol.negotiateSSLConnection(NativeProtocol.java:333) ~[mysql-connector-java-8.0.23.jar!/:8.0.23]
 	... 63 common frames omitted
 
-2021-06-02 12:51:08.191  WARN 5565 --- [           main] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
+2021-06-02 13:01:56.825  WARN 5826 --- [           main] o.h.e.j.e.i.JdbcEnvironmentInitiator     : HHH000342: Could not obtain connection to query metadata
 
 com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
 
@@ -210,9 +210,9 @@ Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protoco
 	at com.mysql.cj.protocol.a.NativeProtocol.negotiateSSLConnection(NativeProtocol.java:333) ~[mysql-connector-java-8.0.23.jar!/:8.0.23]
 	... 63 common frames omitted
 
-2021-06-02 12:51:08.219  INFO 5565 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2021-06-02 12:51:09.728  INFO 5565 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2021-06-02 12:51:10.740 ERROR 5565 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Exception during pool initialization.
+2021-06-02 13:01:56.851  INFO 5826 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-06-02 13:01:58.150  INFO 5826 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-06-02 13:01:59.166 ERROR 5826 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Exception during pool initialization.
 
 com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
 
@@ -306,17 +306,17 @@ Caused by: javax.net.ssl.SSLHandshakeException: No appropriate protocol (protoco
 	at com.mysql.cj.protocol.a.NativeProtocol.negotiateSSLConnection(NativeProtocol.java:333) ~[mysql-connector-java-8.0.23.jar!/:8.0.23]
 	... 62 common frames omitted
 
-2021-06-02 12:51:10.741  WARN 5565 --- [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 08S01
-2021-06-02 12:51:10.742 ERROR 5565 --- [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : Communications link failure
+2021-06-02 13:01:59.167  WARN 5826 --- [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 08S01
+2021-06-02 13:01:59.167 ERROR 5826 --- [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : Communications link failure
 
 The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-2021-06-02 12:51:10.750 ERROR 5565 --- [           main] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
-2021-06-02 12:51:10.751  WARN 5565 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
-2021-06-02 12:51:10.753  INFO 5565 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2021-06-02 12:51:10.783  INFO 5565 --- [           main] ConditionEvaluationReportLoggingListener : 
+2021-06-02 13:01:59.177 ERROR 5826 --- [           main] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
+2021-06-02 13:01:59.177  WARN 5826 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
+2021-06-02 13:01:59.180  INFO 5826 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2021-06-02 13:01:59.210  INFO 5826 --- [           main] ConditionEvaluationReportLoggingListener : 
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2021-06-02 12:51:10.823 ERROR 5565 --- [           main] o.s.boot.SpringApplication               : Application run failed
+2021-06-02 13:01:59.252 ERROR 5826 --- [           main] o.s.boot.SpringApplication               : Application run failed
 
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786) ~[spring-beans-5.3.6.jar!/:5.3.6]
