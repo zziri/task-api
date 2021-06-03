@@ -1,4 +1,4 @@
-package com.zziri.todo.controller.v1;
+package com.zziri.todo.controller;
 
 import com.zziri.todo.domain.Response;
 import com.zziri.todo.domain.SocialProfile;
