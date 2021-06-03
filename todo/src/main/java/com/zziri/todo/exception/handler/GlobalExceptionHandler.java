@@ -23,41 +23,41 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<ErrorDto> handleUserNotFoundException(UserNotFoundException ex) {
         return Response.<ErrorDto>builder().error(true)
-                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), UserNotFoundException.MESSAGE)).build();
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage())).build();
     }
 
     @ExceptionHandler(value = AccountSigninFailedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<ErrorDto> handleAccountSigninFailedException(AccountSigninFailedException ex) {
         return Response.<ErrorDto>builder().error(true)
-                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), AccountSigninFailedException.MESSAGE)).build();
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage())).build();
     }
 
     @ExceptionHandler(value = AuthenticationEntryPointException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Response<ErrorDto> handleAuthenticationEntryPointException(AuthenticationEntryPointException ex) {
         return Response.<ErrorDto>builder().error(true)
-                .data(ErrorDto.of(HttpStatus.UNAUTHORIZED.value(), AuthenticationEntryPointException.MESSAGE)).build();
+                .data(ErrorDto.of(HttpStatus.UNAUTHORIZED.value(), ex.getMessage())).build();
     }
 
     @ExceptionHandler(value = CommunicationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<ErrorDto> handleCommunicationException(CommunicationException ex) {
         return Response.<ErrorDto>builder().error(true)
-                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), CommunicationException.MESSAGE)).build();
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage())).build();
     }
 
     @ExceptionHandler(value = UserExistException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<ErrorDto> handleUserExistException(UserExistException ex) {
         return Response.<ErrorDto>builder().error(true)
-                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), UserExistException.MESSAGE)).build();
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage())).build();
     }
 
     @ExceptionHandler(value = TaskNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<ErrorDto> handleTaskNotFoundException(TaskNotFoundException ex) {
         return Response.<ErrorDto>builder().error(true)
-                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), TaskNotFoundException.MESSAGE)).build();
+                .data(ErrorDto.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage())).build();
     }
 }
