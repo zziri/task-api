@@ -25,17 +25,17 @@ public class SignController {
         return signService.signup(account, password, name);
     }
 
-    @PostMapping(value = "/signin/{provider}")
-    public Response<String> signinByProvider(@PathVariable String provider, @RequestParam String accessToken) {
-        SocialService service = socialServiceFactory.getService(provider);
+    @PostMapping(value = "/signin/{social}")
+    public Response<String> signinBySocial(@PathVariable String social, @RequestParam String accessToken) {
+        SocialService service = socialServiceFactory.getService(social);
         SocialProfile profile = service.getProfile(accessToken);
-        return signService.signinByProvider(provider, profile);
+        return signService.signinBySocial(social, profile);
     }
 
-    @PostMapping(value = "/signup/{provider}")
-    public Response<String> signupByProvider(@PathVariable String provider, @RequestParam String accessToken, @RequestParam String name) {
-        SocialService service = socialServiceFactory.getService(provider);
+    @PostMapping(value = "/signup/{social}")
+    public Response<String> signupBySocial(@PathVariable String social, @RequestParam String accessToken, @RequestParam String name) {
+        SocialService service = socialServiceFactory.getService(social);
         SocialProfile profile = service.getProfile(accessToken);
-        return signService.signupProvider(provider, name, profile);
+        return signService.signupBySocial(social, name, profile);
     }
 }

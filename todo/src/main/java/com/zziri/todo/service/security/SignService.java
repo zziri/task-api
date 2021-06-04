@@ -48,22 +48,22 @@ public class SignService {
                 .data(token).build();
     }
 
-    public Response<String> signinByProvider(String provider, SocialProfile profile) {
-        User user = userRepo.findByAccountAndProvider(profile.getAccount(), provider).orElseThrow(UserNotFoundException::new);
+    public Response<String> signinBySocial(String social, SocialProfile profile) {
+        User user = userRepo.findByAccountAndProvider(profile.getAccount(), social).orElseThrow(UserNotFoundException::new);
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
 
         return Response.<String>builder()
                 .data(token).build();
     }
 
-    public Response<String> signupProvider(String provider, String name, SocialProfile profile) {
-        Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), provider);
+    public Response<String> signupBySocial(String social, String name, SocialProfile profile) {
+        Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), social);
         if (user.isPresent())
             throw new UserExistException();
 
         userRepo.save(User.builder()
                 .account(profile.getAccount())
-                .provider(provider)
+                .provider(social)
                 .name(name)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());

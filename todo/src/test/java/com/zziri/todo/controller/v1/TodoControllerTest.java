@@ -48,7 +48,7 @@ class TodoControllerTest {
     @Test
     public void addTodoTask() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/v1/todo/task")
+                MockMvcRequestBuilders.post("/v1/task")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("{\n" +
                                 "    \"title\": \"first todo task\"\n" +
@@ -68,7 +68,7 @@ class TodoControllerTest {
     @Test
     public void getTodoTaskList() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/v1/todo/task")
+                MockMvcRequestBuilders.get("/v1/task")
                         .header("X-AUTH-TOKEN", token))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -83,7 +83,7 @@ class TodoControllerTest {
     @Test
     public void deleteTodoTask() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/v1/todo/task/" + taskId)
+                MockMvcRequestBuilders.delete("/v1/task/" + taskId)
                         .header("X-AUTH-TOKEN", token))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -94,7 +94,7 @@ class TodoControllerTest {
     @Test
     public void modifyTodoTask() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.patch("/v1/todo/task/" + taskId)
+                MockMvcRequestBuilders.patch("/v1/task/" + taskId)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("{\n" +
                                 "    \"title\": \"modified\"\n" +
