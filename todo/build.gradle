@@ -33,7 +33,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.google.code.gson:gson'
 //    testImplementation 'org.springframework.security:spring-security-test'
-    compile 'mysql:mysql-connector-java'
+//    compile 'mysql:mysql-connector-java'
 }
 
 test {

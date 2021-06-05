@@ -27,6 +27,10 @@ public class SignService {
     }
 
     public Response<String> signup(String account, String password, String name) {
+        Optional<User> user = userRepo.findByAccount(account);
+        if (user.isPresent())
+            throw new UserExistException();
+
         userRepo.save(User.builder()
                 .account(account)
                 .password(passwordEncoder.encode(password))
@@ -68,5 +72,23 @@ public class SignService {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
         return Response.<String>builder().build();
+    }
+
+    public Response<String> auth(String social, SocialProfile profile) {
+        try {
+            signupBySocial(social, profile.getName(), profile);
+        } catch (UserExistException e) {
+            return signinBySocial(social, profile);
+        }
+        return signinBySocial(social, profile);
+    }
+
+    public Response<String> auth(String account, String password) {
+        try {
+            signup(account, password, "");
+        } catch (UserExistException e) {
+            return signin(account, password);
+        }
+        return signin(account, password);
     }
 }

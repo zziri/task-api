@@ -38,4 +38,16 @@ public class SignController {
         SocialProfile profile = service.getProfile(accessToken);
         return signService.signupBySocial(social, name, profile);
     }
+
+    @PostMapping(value = "/auth/{social}")
+    public Response<String> authBySocial(@PathVariable String social, @RequestParam String accessToken) {
+        SocialService service = socialServiceFactory.getService(social);
+        SocialProfile profile = service.getProfile(accessToken);
+        return signService.auth(social, profile);
+    }
+
+    @PostMapping(value = "/auth")
+    public Response<String> auth(@RequestParam String account, @RequestParam String password) {
+        return signService.auth(account, password);
+    }
 }

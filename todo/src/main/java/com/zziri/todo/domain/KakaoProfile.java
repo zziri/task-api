@@ -16,6 +16,11 @@ public class KakaoProfile implements SocialProfile {
         return id.toString();
     }
 
+    @Override
+    public String getName() {
+        return properties.getName();
+    }
+
     @Getter
     @Setter
     @ToString
