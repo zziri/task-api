@@ -6,9 +6,11 @@ import com.zziri.todo.exception.custom.TaskNotFoundException;
 import com.zziri.todo.repository.TodoTaskRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class TodoTaskService {
