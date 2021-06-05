@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/v1/todo/task")
+@RequestMapping(value = "/v2/tasks")
 public class TodoController {
     private final JwtTokenProvider jwtTokenProvider;
     private final TodoTaskService todoTaskService;

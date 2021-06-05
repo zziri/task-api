@@ -1,29 +1,33 @@
 package com.zziri.todo.controller;
 
+import com.google.gson.Gson;
 import com.zziri.todo.domain.Response;
 import com.zziri.todo.domain.User;
 import com.zziri.todo.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/v1")
+@RequiredArgsConstructor
+@RequestMapping("/v2/user")
 public class UserController {
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final Gson gson;
 
     @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
-    @GetMapping(value = "/user")
+    @GetMapping
     public Response<User> findUser(@RequestHeader("X-AUTH-TOKEN") String token) {
         return userService.findByToken(token);
     }
+
+    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+    @PatchMapping
+    public Response<User> patchUserInfo(@RequestHeader("X-AUTH-TOKEN") String token, @RequestBody String userInfo) {
+        User user = gson.fromJson(userInfo, User.class);
+        return userService.patchUserInfo(token, user);
+    }
+
 
 //    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
 //    @GetMapping(value = "/users")

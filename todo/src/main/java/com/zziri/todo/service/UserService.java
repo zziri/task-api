@@ -6,11 +6,12 @@ import com.zziri.todo.domain.User;
 import com.zziri.todo.exception.custom.UserNotFoundException;
 import com.zziri.todo.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -27,6 +28,15 @@ public class UserService {
     public Response<User> findByToken(String token) {
         String userPk = jwtTokenProvider.getUserPk(token);
         return findById(Long.valueOf(userPk));
+    }
+
+    public Response<User> patchUserInfo(String token, User userInfo) {
+        String userPk = jwtTokenProvider.getUserPk(token);
+        User user = userRepo.findById(Long.valueOf(userPk)).orElseThrow(UserNotFoundException::new);
+        user.patch(userInfo);
+        user = userRepo.save(user);
+        return Response.<User>builder()
+                .data(user).build();
     }
 
     public Response<List<User>> findAllUser() {

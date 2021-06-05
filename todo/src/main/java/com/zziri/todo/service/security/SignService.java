@@ -27,6 +27,10 @@ public class SignService {
     }
 
     public Response<String> signup(String account, String password, String name) {
+        Optional<User> user = userRepo.findByAccount(account);
+        if (user.isPresent())
+            throw new UserExistException();
+
         userRepo.save(User.builder()
                 .account(account)
                 .password(passwordEncoder.encode(password))
@@ -48,25 +52,43 @@ public class SignService {
                 .data(token).build();
     }
 
-    public Response<String> signinByProvider(String provider, SocialProfile profile) {
-        User user = userRepo.findByAccountAndProvider(profile.getAccount(), provider).orElseThrow(UserNotFoundException::new);
+    public Response<String> signinBySocial(String social, SocialProfile profile) {
+        User user = userRepo.findByAccountAndProvider(profile.getAccount(), social).orElseThrow(UserNotFoundException::new);
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
 
         return Response.<String>builder()
                 .data(token).build();
     }
 
-    public Response<String> signupProvider(String provider, String name, SocialProfile profile) {
-        Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), provider);
+    public Response<String> signupBySocial(String social, String name, SocialProfile profile) {
+        Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), social);
         if (user.isPresent())
             throw new UserExistException();
 
         userRepo.save(User.builder()
                 .account(profile.getAccount())
-                .provider(provider)
+                .provider(social)
                 .name(name)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
         return Response.<String>builder().build();
+    }
+
+    public Response<String> auth(String social, SocialProfile profile) {
+        try {
+            signupBySocial(social, profile.getName(), profile);
+        } catch (UserExistException e) {
+            return signinBySocial(social, profile);
+        }
+        return signinBySocial(social, profile);
+    }
+
+    public Response<String> auth(String account, String password) {
+        try {
+            signup(account, password, "");
+        } catch (UserExistException e) {
+            return signin(account, password);
+        }
+        return signin(account, password);
     }
 }
