@@ -81,4 +81,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void patch(User userInfo) {
+        if (userInfo.getName() != null)
+            this.name = userInfo.getName();
+    }
 }

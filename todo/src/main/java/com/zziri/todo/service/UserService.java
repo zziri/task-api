@@ -29,6 +29,15 @@ public class UserService {
         return findById(Long.valueOf(userPk));
     }
 
+    public Response<User> patchUserInfo(String token, User userInfo) {
+        String userPk = jwtTokenProvider.getUserPk(token);
+        User user = userRepo.findById(Long.valueOf(userPk)).orElseThrow(UserNotFoundException::new);
+        user.patch(userInfo);
+        user = userRepo.save(user);
+        return Response.<User>builder()
+                .data(user).build();
+    }
+
     public Response<List<User>> findAllUser() {
         return Response.<List<User>>builder()
                 .data(userRepo.findAll()).build();
