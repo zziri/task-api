@@ -1,6 +1,6 @@
 package com.zziri.todo.controller;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.zziri.todo.config.security.JwtTokenProvider;
 import com.zziri.todo.domain.Response;
 import com.zziri.todo.domain.TodoTask;
@@ -10,6 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,7 +23,12 @@ import java.util.List;
 public class TodoController {
     private final JwtTokenProvider jwtTokenProvider;
     private final TodoTaskService todoTaskService;
-    private final Gson gson;
+    private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+        @Override
+        public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return LocalDateTime.parse(json.getAsString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        }
+    }).create();
 
     @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
     @PostMapping
@@ -52,5 +62,21 @@ public class TodoController {
     public Response<Object> deleteTodoTask(@RequestHeader("X-AUTH-TOKEN") String token, @PathVariable Long taskId) {
         String userPk = jwtTokenProvider.getUserPk(token);
         return todoTaskService.deleteTodoTask(taskId, Long.valueOf(userPk));
+    }
+
+    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+    @PostMapping(value = "/diff")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<List<TodoTask>> getTodoTasksDiff(@RequestHeader("X-AUTH-TOKEN") String token, @RequestBody String json) {
+        String userPk = jwtTokenProvider.getUserPk(token);
+        TodoTask[] tasks = null;
+        try {
+            tasks = gson.fromJson(json, TodoTask[].class);
+        } catch (Exception e) {
+            System.out.println("jihoon");
+            e.printStackTrace();
+        }
+
+        return todoTaskService.getTodoTasksDiff(Long.valueOf(userPk), new ArrayList<>(Arrays.asList(tasks)));
     }
 }

@@ -32,9 +32,14 @@ public class TodoTask {
     @Column(length = 200)
     private String memo;
 
+    @Column
+    private Boolean completed;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
