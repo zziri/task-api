@@ -24,24 +24,40 @@ public class TodoTask {
 
     @Column
     @JsonIgnore
-    private long ownerId;
+    private Long ownerId;
 
+    @Builder.Default
     @Column(length = 200)
-    private String title;
+    private String title = "";
 
+    @Builder.Default
     @Column(length = 200)
-    private String memo;
+    private String memo = "";
 
+    @Builder.Default
+    @Column
+    private Boolean completed = false;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    @JsonIgnore
     public void patch(TodoTask input) {
         if (input.getTitle() != null)
             title = input.getTitle();
         if (input.getMemo() != null)
             memo = input.getMemo();
+    }
+
+    @JsonIgnore
+    public boolean contentEquals(TodoTask task) {
+        return title.equals(task.getTitle())
+                && memo.equals(task.getMemo())
+                && completed.equals(task.getCompleted());
     }
 }

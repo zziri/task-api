@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -40,5 +40,39 @@ public class TodoTaskService {
         TodoTask toBeDeleted = todoTaskRepo.findByOwnerIdAndId(userPk, taskId).orElseThrow(TaskNotFoundException::new);
         todoTaskRepo.delete(toBeDeleted);
         return Response.builder().build();
+    }
+
+    public Response<List<TodoTask>> getTodoTasksDiff(Long userPk, List<TodoTask> tasks) {
+        Map<Long, TodoTask> tasksAtServer = mapping(todoTaskRepo.findByOwnerId(userPk));
+        Map<Long, TodoTask> tasksAtClient = mapping(tasks);
+        List<TodoTask> result = getDiff(tasksAtServer, tasksAtClient);
+        return Response.<List<TodoTask>>builder()
+                .data(result).build();
+    }
+
+    private List<TodoTask> getDiff(Map<Long, TodoTask> server, Map<Long, TodoTask> client) {
+        List<TodoTask> ret = new ArrayList<>();
+
+        for (Map.Entry<Long, TodoTask> entry : server.entrySet()) {
+            Long id = entry.getKey();
+            TodoTask task = entry.getValue();
+
+            if (!client.containsKey(id)) {
+                ret.add(task);
+            } else {
+                if (!task.contentEquals(client.get(id)))
+                    ret.add(task);
+            }
+        }
+
+        return ret;
+    }
+
+    private Map<Long, TodoTask> mapping(List<TodoTask> tasks) {
+        Map<Long, TodoTask> ret = new HashMap<>();
+        for (TodoTask task : tasks) {
+            ret.put(task.getId(), task);
+        }
+        return ret;
     }
 }

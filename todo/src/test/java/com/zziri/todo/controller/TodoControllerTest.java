@@ -1,4 +1,4 @@
-package com.zziri.todo.controller.v1;
+package com.zziri.todo.controller;
 
 import com.google.gson.Gson;
 import com.zziri.todo.config.security.JwtTokenProvider;
@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,5 +111,22 @@ class TodoControllerTest {
                 .andExpect(jsonPath("$.data.createdAt").exists())
                 .andExpect(jsonPath("$.data.modifiedAt").exists())
                 .andExpect(jsonPath("$.data.ownerId").doesNotExist());
+    }
+
+    @Test
+    public void getTodoTasksDiff() throws Exception {
+        TodoTask task = TodoTask.builder()
+                .id(1L)
+                .title("test title")
+                .createdAt(LocalDateTime.parse("2021-06-07T22:48:46.192128"))
+                .modifiedAt(LocalDateTime.parse("2021-06-07T22:48:46.192128")).build();
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/v2/tasks/diff")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(String.format("[%s]", gson.toJson(task)))
+                        .header("X-AUTH-TOKEN", token))
+                .andDo(print())
+                .andExpect(jsonPath("$.data.[0].title").value("dummy"));
     }
 }
