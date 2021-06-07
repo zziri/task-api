@@ -1,4 +1,4 @@
-package com.zziri.todo.controller.v1;
+package com.zziri.todo.controller;
 
 import com.google.gson.Gson;
 import com.zziri.todo.config.security.JwtTokenProvider;
