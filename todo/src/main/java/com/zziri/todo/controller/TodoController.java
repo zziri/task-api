@@ -23,12 +23,7 @@ import java.util.List;
 public class TodoController {
     private final JwtTokenProvider jwtTokenProvider;
     private final TodoTaskService todoTaskService;
-    private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-        @Override
-        public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return LocalDateTime.parse(json.getAsString().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-        }
-    }).create();
+    private final Gson gson;
 
     @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
     @PostMapping
@@ -69,14 +64,7 @@ public class TodoController {
     @ResponseStatus(HttpStatus.OK)
     public Response<List<TodoTask>> getTodoTasksDiff(@RequestHeader("X-AUTH-TOKEN") String token, @RequestBody String json) {
         String userPk = jwtTokenProvider.getUserPk(token);
-        TodoTask[] tasks = null;
-        try {
-            tasks = gson.fromJson(json, TodoTask[].class);
-        } catch (Exception e) {
-            System.out.println("jihoon");
-            e.printStackTrace();
-        }
-
+        TodoTask[] tasks = gson.fromJson(json, TodoTask[].class);
         return todoTaskService.getTodoTasksDiff(Long.valueOf(userPk), new ArrayList<>(Arrays.asList(tasks)));
     }
 }

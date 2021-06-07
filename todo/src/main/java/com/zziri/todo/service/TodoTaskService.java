@@ -50,17 +50,20 @@ public class TodoTaskService {
                 .data(result).build();
     }
 
-    private List<TodoTask> getDiff(Map<Long, TodoTask> map1, Map<Long, TodoTask> map2) {
+    private List<TodoTask> getDiff(Map<Long, TodoTask> server, Map<Long, TodoTask> client) {
         List<TodoTask> ret = new ArrayList<>();
 
-        map1.forEach((id, task) -> {
-            if (!map2.containsKey(id))
+        for (Map.Entry<Long, TodoTask> entry : server.entrySet()) {
+            Long id = entry.getKey();
+            TodoTask task = entry.getValue();
+
+            if (!client.containsKey(id)) {
                 ret.add(task);
-        });
-        map2.forEach((id, task) -> {
-            if (!map1.containsKey(id))
-                ret.add(task);
-        });
+            } else {
+                if (!task.contentEquals(client.get(id)))
+                    ret.add(task);
+            }
+        }
 
         return ret;
     }
