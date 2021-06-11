@@ -16,7 +16,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(swaggerInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.zziri.todo.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.zziri.task.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false);
