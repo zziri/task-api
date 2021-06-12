@@ -6,18 +6,23 @@ import com.zziri.task.domain.User;
 import com.zziri.task.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v2/user")
+@Slf4j
 public class UserController {
     private final UserService userService;
     private final Gson gson;
 
     @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
     @GetMapping
-    public Response<User> findUser(@RequestHeader("X-AUTH-TOKEN") String token) {
+    public Response<User> findUser(@RequestHeader("X-AUTH-TOKEN") String token, HttpServletRequest request) {
+        log.info("[jihoon]" + getRemoteIp(request));
         return userService.findByToken(token);
     }
 
@@ -26,6 +31,26 @@ public class UserController {
     public Response<User> patchUserInfo(@RequestHeader("X-AUTH-TOKEN") String token, @RequestBody String userInfo) {
         User user = gson.fromJson(userInfo, User.class);
         return userService.patchUserInfo(token, user);
+    }
+
+    public static String getRemoteIp(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 
 
