@@ -61,7 +61,7 @@ public class JwtTokenProvider {
 
     // http request -> token
     public String resolveToken(HttpServletRequest req) {
-        return req.getHeader("X-AUTH-TOKEN");
+        return req.getHeader("Task-Authentication");
     }
 
     // jwt 유효성, 만료일자 -> true or false
