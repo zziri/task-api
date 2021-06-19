@@ -55,7 +55,7 @@ class TaskControllerTest {
                         .content("{\n" +
                                 "    \"title\": \"first todo task\"\n" +
                                 "}")
-                        .header("X-AUTH-TOKEN", token))
+                        .header("Task-Authentication", token))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.error").value("false"))
@@ -71,7 +71,7 @@ class TaskControllerTest {
     public void getTodoTaskList() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/v2/tasks")
-                        .header("X-AUTH-TOKEN", token))
+                        .header("Task-Authentication", token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error").value("false"))
@@ -86,7 +86,7 @@ class TaskControllerTest {
     public void deleteTodoTask() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/v2/tasks/" + taskId)
-                        .header("X-AUTH-TOKEN", token))
+                        .header("Task-Authentication", token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error").value("false"))
@@ -101,7 +101,7 @@ class TaskControllerTest {
                         .content("{\n" +
                                 "    \"title\": \"modified\"\n" +
                                 "}")
-                        .header("X-AUTH-TOKEN", token))
+                        .header("Task-Authentication", token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error").value("false"))
@@ -125,7 +125,7 @@ class TaskControllerTest {
                 MockMvcRequestBuilders.post("/v2/tasks/diff")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(String.format("[%s]", gson.toJson(task)))
-                        .header("X-AUTH-TOKEN", token))
+                        .header("Task-Authentication", token))
                 .andDo(print())
                 .andExpect(jsonPath("$.data.[0].title").value("dummy"));
     }
