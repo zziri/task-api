@@ -19,16 +19,16 @@ public class UserController {
     private final UserService userService;
     private final Gson gson;
 
-    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+    @ApiImplicitParam(name = "Task-Authentication", required = true, dataType = "String", paramType = "header")
     @GetMapping
-    public Response<User> findUser(@RequestHeader("X-AUTH-TOKEN") String token, HttpServletRequest request) {
+    public Response<User> findUser(@RequestHeader("Task-Authentication") String token, HttpServletRequest request) {
         log.info("[jihoon]" + getRemoteIp(request));
         return userService.findByToken(token);
     }
 
-    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+    @ApiImplicitParam(name = "Task-Authentication", required = true, dataType = "String", paramType = "header")
     @PatchMapping
-    public Response<User> patchUserInfo(@RequestHeader("X-AUTH-TOKEN") String token, @RequestBody String userInfo) {
+    public Response<User> patchUserInfo(@RequestHeader("Task-Authentication") String token, @RequestBody String userInfo) {
         User user = gson.fromJson(userInfo, User.class);
         return userService.patchUserInfo(token, user);
     }
@@ -54,13 +54,13 @@ public class UserController {
     }
 
 
-//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @ApiImplicitParam(name = "Task-Authentication", required = true, dataType = "String", paramType = "header")
 //    @GetMapping(value = "/users")
 //    public Response<List<User>> findAllUser() {
 //        return userService.findAllUser();
 //    }
 //
-//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @ApiImplicitParam(name = "Task-Authentication", required = true, dataType = "String", paramType = "header")
 //    @GetMapping(value = "/user/{id}")
 //    public Response<User> findById(@PathVariable Long id) {
 //        return userService.findById(id);
@@ -71,13 +71,13 @@ public class UserController {
 //        return userService.post(account, name);
 //    }
 //
-//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @ApiImplicitParam(name = "Task-Authentication", required = true, dataType = "String", paramType = "header")
 //    @PutMapping(value = "/user")
 //    public Response<User> modify(@RequestParam long id, @RequestParam String account, @RequestParam String name) {
 //        return userService.modify(id, account, name);
 //    }
 //
-//    @ApiImplicitParam(name = "X-AUTH-TOKEN", required = true, dataType = "String", paramType = "header")
+//    @ApiImplicitParam(name = "Task-Authentication", required = true, dataType = "String", paramType = "header")
 //    @DeleteMapping(value = "/user")
 //    public Response<User> delete(@RequestParam long id) {
 //        return userService.delete(id);
