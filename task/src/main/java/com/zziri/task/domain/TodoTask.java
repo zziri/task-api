@@ -26,17 +26,14 @@ public class TodoTask {
     @JsonIgnore
     private Long ownerId;
 
-    @Builder.Default
     @Column(length = 200)
-    private String title = "";
+    private String title;
 
-    @Builder.Default
     @Column(length = 200)
-    private String memo = "";
+    private String memo;
 
-    @Builder.Default
     @Column
-    private Boolean completed = false;
+    private Boolean completed;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @CreatedDate
@@ -52,6 +49,8 @@ public class TodoTask {
             title = input.getTitle();
         if (input.getMemo() != null)
             memo = input.getMemo();
+        if (input.getCompleted() != null)
+            completed = input.getCompleted();
     }
 
     @JsonIgnore

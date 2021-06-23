@@ -11,7 +11,7 @@ Task List 를 관리할 수 있는 App 의 API 서버
 - AWS (EC2, RDS MariaDB)
 - OAuth 2.0
 
-# api docs
+# API Docs
 
 API 문서입니다
 
@@ -52,6 +52,7 @@ POST https://task.zziri.me/v2/auth/google?accessToken=12345678912345678912345678
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
+
 {
     "error": false,
     "data": "987654321987654321iI0NiIsInJvbGVzIjp"
@@ -93,12 +94,72 @@ GET https://task.zziri.me/v2/user
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
+
 {
     "error": false,
     "data": {
         "account": "1234567890151358",
         "name": "zziri",
-        "provider": ""
+        "provider": "google"
+    }
+}
+```
+
+## Update UserInfo
+
+User 정보를 수정합니다
+
+### HTTP Request
+
+```HTTP
+PATCH /v2/user
+```
+
+### Request Headers
+
+|Name|Description|
+|---|:---:|
+|Task-Authentication|{token}|
+
+### Request Body
+
+UserInfo 의 속성을 Body에 담아 요청할 수 있습니다. 아래 내용 이외에 다른 속성을 포함하면 무시됩니다.
+
+|Property|Type|Description|
+|---|:---:|:---:|
+|name|String|사용자의 이름 필드|
+
+### Response
+
+성공하면 `200 OK`를 반환하고 body 에 JSON 형태로 errer, data 를 담아주며 data 에는 수정 후의 user info 의 속성들이 있습니다
+
+### Example
+
+Update UserInfo 의 예제입니다
+
+#### Request
+
+```HTTP
+PATCH https://task.zziri.me/v2/user
+Content-Type: application/json
+
+{
+    "name": "jihoon"
+}
+```
+
+#### Response
+
+```HTTP
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "error": false,
+    "data": {
+        "account": "1234567890151358",
+        "name": "jihoon",
+        "provider": "google"
     }
 }
 ```
@@ -137,6 +198,7 @@ GET https://task.zziri.me/v2/tasks
 ```HTTP
 HTTP/1.1 200 OK
 Content-Type: application/json
+
 {
     "error": false,
     "data": [
@@ -152,7 +214,7 @@ Content-Type: application/json
 }
 ```
 
-## Add Task
+## Create Task
 
 task 를 추가합니다
 
@@ -184,18 +246,24 @@ task 의 속성들을 JSON 으로 표현해서 body 에 담아 요청합니다
 
 ### Examples
 
-Add Task 의 예제입니다
+Create Task 의 예제입니다
 
 #### Request
 
 ```HTTP
 POST https://task.zziri.me/v2/tasks
+Content-Type: application/json
+
+{
+    "title": "test title"
+}
 ```
 #### Response
 
 ```HTTP
 HTTP/1.1 201 Created
 Content-Type: application/json
+
 {
     "error": false,
     "data": {

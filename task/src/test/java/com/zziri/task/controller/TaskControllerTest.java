@@ -99,15 +99,15 @@ class TaskControllerTest {
                 MockMvcRequestBuilders.patch("/v2/tasks/" + taskId)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content("{\n" +
-                                "    \"title\": \"modified\"\n" +
+                                "    \"memo\": \"add memo\"\n" +
                                 "}")
                         .header("Task-Authentication", token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error").value("false"))
-                .andExpect(jsonPath("$.data.title").value("modified"))
+                .andExpect(jsonPath("$.data.title").value("dummy"))
                 .andExpect(jsonPath("$.data.id").exists())
-                .andExpect(jsonPath("$.data.memo").isEmpty())
+                .andExpect(jsonPath("$.data.memo").value("add memo"))
                 .andExpect(jsonPath("$.data.createdAt").exists())
                 .andExpect(jsonPath("$.data.modifiedAt").exists())
                 .andExpect(jsonPath("$.data.ownerId").doesNotExist());
