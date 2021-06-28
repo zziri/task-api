@@ -58,8 +58,10 @@ public class TaskApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://127.0.0.1:8080")  // 허용할 주소 및 포트
-                        .allowedOrigins("http://localhost:8080");  // 허용할 주소 및 포트
+                        .allowedOrigins("http://127.0.0.1:8080", "http://localhost:8080", "https://task.zziri.me")
+                        .exposedHeaders("*")
+                        .allowedMethods("*")
+                        .allowedHeaders("*");
             }
         };
     }
