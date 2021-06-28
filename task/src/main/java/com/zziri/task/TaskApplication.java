@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
@@ -48,5 +50,19 @@ public class TaskApplication {
                 return new JsonPrimitive(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime));
             }
         }).create();
+    }
+
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://127.0.0.1:8080", "http://localhost:8080", "https://task.zziri.me")
+                        .exposedHeaders("*")
+                        .allowedMethods("*")
+                        .allowedHeaders("*");
+            }
+        };
     }
 }
