@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -34,9 +38,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests()
+                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .antMatchers("/*/signin", "/*/signin/**", "/*/signup", "/*/signup/**", "/social/**", "/*/auth/**", "/*/auth").permitAll()
                         .antMatchers(HttpMethod.GET, "/exception/**").permitAll()
                         .anyRequest().hasRole("USER")
+                .and()
+                    .cors()
                 .and()
                     .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
@@ -49,5 +56,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs", "/swagger-resources/**",
                 "/swagger-ui.html", "/webjars/**", "/swagger/**")
                 .antMatchers("/h2-console/**", "/h2-console", "/favicon.ico");
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://127.0.0.1:8080");
+        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("https://task.zziri.me");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 }
