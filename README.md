@@ -27,7 +27,7 @@ Google, Kakao 로그인을 지원합니다
 
 ### HTTP Request
 
-소셜 서비스의 OAuth access token 을 query string에 전달해서 요청합니다
+소셜 서비스의 OAuth access token 을 query string에 담아서 요청합니다
 
 ```HTTP
 POST /v2/auth/{social}?accessToken={access token}
@@ -274,5 +274,109 @@ Content-Type: application/json
         "createdAt": "2021-06-17T14:26:43.954",
         "modifiedAt": "2021-06-17T14:26:43.954"
     }
+}
+```
+
+## Update Task
+
+task 내용을 수정합니다
+
+### HTTP Request
+
+```HTTP
+PATCH /v2/tasks/{taskId}
+```
+
+### Request headers
+
+|Name|Description|
+|---|:---:|
+|Task-Authentication|{token}|
+
+### Request body
+
+task 의 속성들을 JSON 으로 표현해서 body 에 담아 요청합니다
+
+|Property|Type|Description|
+|---|:---:|:---:|
+|completed|boolean|task가 완료되었는지 나타내는 속성|
+|title|String|task의 제목 필드|
+|memo|String|task의 메모 필드|
+
+### Response
+
+성공하면 `200 OK` 상태 코드와 함께 수정 후 task 정보를 response body 에 반환합니다
+
+### Examples
+
+Update Task 의 예제입니다
+
+#### Request
+
+```HTTP
+PATCH https://task.zziri.me/v2/tasks/144
+Content-Type: application/json
+
+{
+    "title": "update"
+}
+```
+#### Response
+
+```HTTP
+HTTP/1.1 200 Created
+Content-Type: application/json
+
+{
+    "error": false,
+    "data": {
+        "id": 144,
+        "title": "update",
+        "memo": "",
+        "completed": false,
+        "createdAt": "2021-06-17T14:26:43.954",
+        "modifiedAt": "2021-06-20T16:08:11.233"
+    }
+}
+```
+
+## Delete Task
+
+task 정보를 삭제합니다
+
+### HTTP Request
+
+```HTTP
+DELETE /v2/tasks/{taskId}
+```
+
+### Request headers
+
+|Name|Description|
+|---|:---:|
+|Task-Authentication|{token}|
+
+### Response
+
+성공하면 `200 OK` 상태 코드와 함께 삭제 성공 여부를 response body 에 반환합니다
+
+### Examples
+
+Delete Task 의 예제입니다
+
+#### Request
+
+```HTTP
+DELETE https://task.zziri.me/v2/tasks/144
+```
+#### Response
+
+```HTTP
+HTTP/1.1 200 Created
+Content-Type: application/json
+
+{
+    "error": false,
+    "data": null
 }
 ```
