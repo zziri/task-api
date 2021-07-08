@@ -1,42 +1,42 @@
 package com.zziri.task.service.security;
 
 import com.zziri.task.config.security.JwtTokenProvider;
-import com.zziri.task.domain.*;
+import com.zziri.task.domain.Response;
+import com.zziri.task.domain.SocialProfile;
+import com.zziri.task.domain.User;
 import com.zziri.task.exception.custom.AccountSigninFailedException;
 import com.zziri.task.exception.custom.UserExistException;
 import com.zziri.task.exception.custom.UserNotFoundException;
 import com.zziri.task.repository.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Optional;
 
+@Transactional
 @Service
+@RequiredArgsConstructor
 public class SignService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    public SignService(UserRepo userRepo, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
     public Response<String> signup(String account, String password, String name) {
-        Optional<User> user = userRepo.findByAccount(account);
-        if (user.isPresent())
-            throw new UserExistException();
+        synchronized (userRepo) {
+            Optional<User> user = userRepo.findByAccount(account);
+            if (user.isPresent())
+                throw new UserExistException();
 
-        userRepo.save(User.builder()
-                .account(account)
-                .password(passwordEncoder.encode(password))
-                .name(name)
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
+            userRepo.save(User.builder()
+                    .account(account)
+                    .password(passwordEncoder.encode(password))
+                    .name(name)
+                    .roles(Collections.singletonList("ROLE_USER"))
+                    .build());
+        }
 
         return Response.<String>builder()
                 .data("").build();
@@ -61,16 +61,19 @@ public class SignService {
     }
 
     public Response<String> signupBySocial(String social, String name, SocialProfile profile) {
-        Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), social);
-        if (user.isPresent())
-            throw new UserExistException();
+        synchronized (userRepo) {
+            Optional<User> user = userRepo.findByAccountAndProvider(profile.getAccount(), social);
+            if (user.isPresent())
+                throw new UserExistException();
 
-        userRepo.save(User.builder()
-                .account(profile.getAccount())
-                .provider(social)
-                .name(name)
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
+            userRepo.save(User.builder()
+                    .account(profile.getAccount())
+                    .provider(social)
+                    .name(name)
+                    .roles(Collections.singletonList("ROLE_USER"))
+                    .build());
+        }
+
         return Response.<String>builder().build();
     }
 
