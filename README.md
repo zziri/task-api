@@ -25,6 +25,11 @@ Google, Kakao 로그인을 지원합니다
 
 이 요청으로 얻은 인증 토큰은 이후 `Task-Authentication` header 로 다른 요청에 사용합니다
 
+
+
+<details markdown="1">
+<summary>Sign up + Sign in Details</summary>
+
 ### HTTP Request
 
 소셜 서비스의 OAuth access token 을 query string에 담아서 요청합니다
@@ -59,9 +64,16 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
+
+
 ## Get UserInfo
 
 User 정보를 읽어옵니다
+
+<details markdown="1">
+<summary>Get UserInfo Details</summary>
 
 ### HTTP Request
 
@@ -105,9 +117,14 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
 ## Update UserInfo
 
 User 정보를 수정합니다
+
+<details markdown="1">
+<summary>Update UserInfo Details</summary>
 
 ### HTTP Request
 
@@ -164,9 +181,14 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
 ## Get Tasks
 
 사용자의 모든 task를 읽어옵니다
+
+<details markdown="1">
+<summary>Get Tasks Details</summary>
 
 ### HTTP Request
 
@@ -214,9 +236,14 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
 ## Create Task
 
 task 를 추가합니다
+
+<details markdown="1">
+<summary>Create Task Details</summary>
 
 ### HTTP Request
 
@@ -277,9 +304,14 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
 ## Update Task
 
 task 내용을 수정합니다
+
+<details markdown="1">
+<summary>Update Task Details</summary>
 
 ### HTTP Request
 
@@ -340,9 +372,14 @@ Content-Type: application/json
 }
 ```
 
+</details>
+
 ## Delete Task
 
 task 정보를 삭제합니다
+
+<details markdown="1">
+<summary>Delete Task Details</summary>
 
 ### HTTP Request
 
@@ -380,3 +417,5 @@ Content-Type: application/json
     "data": null
 }
 ```
+
+</details>
