@@ -72,6 +72,10 @@ Content-Type: application/json
 
 User 정보를 읽어옵니다
 
+account, name, provider 속성을 User 정보에 담아서 Response 합니다
+
+account는 unique한 계정정보, name은 사용자의 이름, provider는 회원가입할 때에 이용한 소셜서비스(Google or Kakao)입니다
+
 <details markdown="1">
 <summary>Get UserInfo Details</summary>
 
@@ -122,6 +126,8 @@ Content-Type: application/json
 ## Update UserInfo
 
 User 정보를 수정합니다
+
+account, provider 정보는 수정할 수 없습니다
 
 <details markdown="1">
 <summary>Update UserInfo Details</summary>
@@ -187,6 +193,10 @@ Content-Type: application/json
 
 사용자의 모든 task를 읽어옵니다
 
+사용자가 등록한 모든 task의 id, title, memo, completed, createdAt, modifiedAt 속성을 담아서 리스트로 반환합니다
+
+id는 task의 unique한 key입니다
+
 <details markdown="1">
 <summary>Get Tasks Details</summary>
 
@@ -241,6 +251,12 @@ Content-Type: application/json
 ## Create Task
 
 task 를 추가합니다
+
+completed, title, memo 속성을 포함하여 요청합니다
+
+만약 무시할 경우 completed는 false, title 과 memo 는 ""(빈 문자열)로 초기화됩니다
+
+내용이 같은 task 를 중복으로 추가하는 것을 허용합니다
 
 <details markdown="1">
 <summary>Create Task Details</summary>
@@ -310,6 +326,10 @@ Content-Type: application/json
 
 task 내용을 수정합니다
 
+completed, title, memo 속성을 수정할 수 있으며 다른 속성을 포함하면 무시됩니다
+
+위 속성들 중 request body에 포함되지 않은 속성은 기존의 값을 유지합니다
+
 <details markdown="1">
 <summary>Update Task Details</summary>
 
@@ -377,6 +397,8 @@ Content-Type: application/json
 ## Delete Task
 
 task 정보를 삭제합니다
+
+삭제한 task 정보는 따로 백업하지 않아 되돌릴 수 없습니다
 
 <details markdown="1">
 <summary>Delete Task Details</summary>
