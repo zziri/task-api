@@ -64,6 +64,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         configuration.addAllowedOrigin("http://127.0.0.1:8080");
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedOrigin("https://task.zziri.me");
+        configuration.addAllowedOrigin("https://task-app.zziri.me");
+        configuration.addAllowedOrigin("http://task-app.zziri.me");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("*");
