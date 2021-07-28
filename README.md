@@ -442,3 +442,13 @@ Content-Type: application/json
 ```
 
 </details>
+
+
+# Reference
+
+참고한 책 혹은 웹 사이트입니다
+
+스프링 인 액션 - http://www.yes24.com/Product/Goods/90180239
+
+SpringBoot2로 Rest api 만들기 - https://daddyprogrammer.org/post/19/spring-boot2-start-intellij/
+
