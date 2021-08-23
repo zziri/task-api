@@ -1,9 +1,6 @@
 package com.zziri.task.config.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class JwtTokenProvider {
@@ -72,5 +70,16 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public Optional<Date> getExpiration(String token) {
+        Jws<Claims> claimsJws;
+        try {
+            claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+        return Optional.of(claimsJws.getBody().getExpiration());
     }
 }
