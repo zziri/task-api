@@ -55,7 +55,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**",
                 "/swagger-ui.html", "/webjars/**", "/swagger/**")
-                .antMatchers("/h2-console/**", "/h2-console", "/favicon.ico");
+                .antMatchers("/h2-console/**", "/h2-console", "/favicon.ico")
+                .antMatchers("/docs");
     }
 
     @Bean
